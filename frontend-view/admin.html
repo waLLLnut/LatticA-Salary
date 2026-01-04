@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Portal - LatticA Salary</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <span class="logo-icon">🔐</span>
+          <span class="logo-text">LatticA Salary</span>
+        </div>
+        <nav class="nav">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="admin.html" class="nav-link active">Admin</a>
+          <a href="employee.html" class="nav-link">Employee</a>
+        </nav>
+        <div class="header-right">
+          <div class="network-badge" id="networkBadge">
+            <span class="network-dot"></span>
+            <span class="network-name">Not Connected</span>
+          </div>
+          <button class="connect-btn" id="connectBtn">
+            <span class="wallet-icon">👛</span>
+            <span class="btn-text">Connect Wallet</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Dashboard -->
+    <main class="dashboard">
+      <div class="dashboard-header">
+        <div class="dashboard-title">
+          <h1>👨‍💼 Admin Portal</h1>
+          <p>Payroll management and batch payments</p>
+        </div>
+        <div class="dashboard-actions">
+          <button class="btn btn-outline" id="exportReportBtn">
+            <span>📊</span> Export Report
+          </button>
+        </div>
+      </div>
+
+      <!-- Role Check Banner -->
+      <div class="role-banner" id="roleBanner">
+        <span class="role-icon">⚠️</span>
+        <span class="role-text">Connect wallet and verify Admin privileges</span>
+      </div>
+
+      <!-- Treasury Status -->
+      <div class="treasury-section">
+        <div class="treasury-card">
+          <div class="treasury-header">
+            <h3>💰 Treasury Balance</h3>
+            <span class="treasury-token">MockUSDT</span>
+          </div>
+          <div class="treasury-balance" id="treasuryBalance">
+            <span class="balance-value">0.00</span>
+            <span class="balance-unit">USDT</span>
+          </div>
+          <div class="treasury-actions">
+            <button class="btn btn-secondary btn-sm" id="depositBtn">
+              <span>➕</span> Deposit
+            </button>
+            <button class="btn btn-outline btn-sm" id="approveBtn">
+              <span>✅</span> Approve Allowance
+            </button>
+          </div>
+          <div class="treasury-warning" id="treasuryWarning" style="display: none;">
+            <span>⚠️</span> Insufficient balance. Please deposit USDT.
+          </div>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">👥</div>
+          <div class="stat-info">
+            <span class="stat-value" id="employeeCount">0</span>
+            <span class="stat-label">Registered Employees</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">📦</div>
+          <div class="stat-info">
+            <span class="stat-value" id="pendingBatches">0</span>
+            <span class="stat-label">Pending Batches</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div class="stat-info">
+            <span class="stat-value" id="executedBatches">0</span>
+            <span class="stat-label">Executed This Month</span>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">💸</div>
+          <div class="stat-info">
+            <span class="stat-value" id="totalPaid">0</span>
+            <span class="stat-label">Total Paid (USDT)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Tabs -->
+      <div class="main-tabs">
+        <button class="main-tab active" data-tab="batch">Batch Payment</button>
+        <button class="main-tab" data-tab="employees">Employees</button>
+        <button class="main-tab" data-tab="history">History</button>
+      </div>
+
+      <!-- Batch Payment Tab -->
+      <div class="tab-content active" id="batchTab">
+        <div class="dashboard-grid">
+          <!-- CSV Upload -->
+          <div class="card">
+            <div class="card-header">
+              <h2>📤 CSV Upload</h2>
+              <a href="#" class="link" id="downloadTemplate">Download Template</a>
+            </div>
+            <div class="upload-zone" id="uploadZone">
+              <div class="upload-icon">📁</div>
+              <p>Drag and drop CSV file or click to upload</p>
+              <p class="upload-hint">Format: address, amount, memo</p>
+              <input type="file" id="csvFile" accept=".csv" hidden>
+            </div>
+            <div class="upload-preview" id="uploadPreview" style="display: none;">
+              <div class="preview-header">
+                <span class="preview-count">0 records loaded</span>
+                <button class="btn btn-sm btn-outline" id="clearUpload">Clear</button>
+              </div>
+              <div class="preview-table-container">
+                <table class="preview-table" id="previewTable">
+                  <thead>
+                    <tr>
+                      <th>Address</th>
+                      <th>Amount (USDT)</th>
+                      <th>Memo</th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+              <div class="preview-summary">
+                <span>Total: <strong id="totalAmount">0</strong> USDT</span>
+                <span>Records: <strong id="recordCount">0</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Create Batch -->
+          <div class="card">
+            <div class="card-header">
+              <h2>📝 Create Batch</h2>
+            </div>
+            <form class="form" id="createBatchForm">
+              <div class="form-group">
+                <label>Pay Period</label>
+                <div class="date-range">
+                  <input type="date" class="input" id="periodStart" required>
+                  <span>~</span>
+                  <input type="date" class="input" id="periodEnd" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Batch Name</label>
+                <input type="text" class="input" id="batchName" placeholder="January 2025 Salary" required>
+              </div>
+              <div class="form-group">
+                <label>Tax Rate (%)</label>
+                <input type="number" class="input" id="taxRate" value="3.3" step="0.1" min="0" max="50">
+                <span class="hint">Tax records are encrypted and stored off-chain</span>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>
+                    <input type="checkbox" id="encryptPayslips" checked>
+                    Encrypt Payslips (FHE16)
+                  </label>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-primary btn-full" id="createBatchBtn" disabled>
+                <span>📦</span> Create Draft Batch
+              </button>
+            </form>
+          </div>
+
+          <!-- Pending Batches -->
+          <div class="card card-wide">
+            <div class="card-header">
+              <h2>⏳ Pending Batches</h2>
+              <div class="batch-filters">
+                <select class="filter-select" id="batchStatusFilter">
+                  <option value="all">All Status</option>
+                  <option value="draft">Draft</option>
+                  <option value="pending">Pending Approval</option>
+                  <option value="approved">Approved</option>
+                </select>
+              </div>
+            </div>
+            <div class="batch-list" id="batchList">
+              <div class="empty-state">
+                <span class="empty-icon">📭</span>
+                <p>No pending batches</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Employees Tab -->
+      <div class="tab-content" id="employeesTab">
+        <div class="dashboard-grid">
+          <!-- Add Employee -->
+          <div class="card">
+            <div class="card-header">
+              <h2>➕ Register Employee</h2>
+            </div>
+            <form class="form" id="addEmployeeForm">
+              <div class="form-group">
+                <label>Wallet Address *</label>
+                <input type="text" class="input" id="empAddress" placeholder="0x..." required>
+              </div>
+              <div class="form-group">
+                <label>Employee ID *</label>
+                <input type="text" class="input" id="empId" placeholder="EMP-001" required>
+                <span class="hint">Only this ID is recorded on-chain (PII protection)</span>
+              </div>
+              <div class="form-group">
+                <label>Name (Off-chain only)</label>
+                <input type="text" class="input" id="empName" placeholder="John Doe">
+                <span class="hint">Name is encrypted and stored only off-chain</span>
+              </div>
+              <div class="form-group">
+                <label>Department (Off-chain only)</label>
+                <input type="text" class="input" id="empDept" placeholder="Engineering">
+              </div>
+              <div class="form-group">
+                <label>Base Salary (USDT)</label>
+                <input type="number" class="input" id="empSalary" placeholder="5000" step="0.01">
+              </div>
+              <button type="submit" class="btn btn-primary btn-full">
+                <span>🔐</span> Register (Encrypt & Commit)
+              </button>
+            </form>
+          </div>
+
+          <!-- Employee List -->
+          <div class="card card-wide">
+            <div class="card-header">
+              <h2>📋 Employee Registry</h2>
+              <div class="search-box">
+                <input type="search" placeholder="Search by ID or Address..." class="search-input" id="employeeSearch">
+              </div>
+            </div>
+            <div class="table-container">
+              <table class="table" id="employeeTable">
+                <thead>
+                  <tr>
+                    <th>Employee ID</th>
+                    <th>Address</th>
+                    <th>Commitment</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="employeeTableBody">
+                  <tr class="empty-row">
+                    <td colspan="5">
+                      <div class="empty-state">
+                        <span class="empty-icon">👥</span>
+                        <p>No employees registered</p>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="table-footer">
+              <span id="employeeCountFooter">0 employees</span>
+              <button class="btn btn-outline btn-sm" id="exportEmployees">
+                <span>📥</span> Export CSV
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- History Tab -->
+      <div class="tab-content" id="historyTab">
+        <div class="card card-full">
+          <div class="card-header">
+            <h2>📜 Transaction History</h2>
+            <div class="history-filters">
+              <select class="filter-select" id="historyPeriod">
+                <option value="all">All Time</option>
+                <option value="month">This Month</option>
+                <option value="quarter">This Quarter</option>
+                <option value="year">This Year</option>
+              </select>
+              <button class="btn btn-outline btn-sm" id="exportHistory">
+                <span>📥</span> Export CSV
+              </button>
+            </div>
+          </div>
+          <div class="table-container">
+            <table class="table" id="historyTable">
+              <thead>
+                <tr>
+                  <th>Date</th>
+                  <th>Batch Name</th>
+                  <th>Recipients</th>
+                  <th>Total (USDT)</th>
+                  <th>Tx Hash</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="historyTableBody">
+                <tr class="empty-row">
+                  <td colspan="6">
+                    <div class="empty-state">
+                      <span class="empty-icon">📭</span>
+                      <p>No transaction history</p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Batch Detail Modal -->
+  <div class="modal" id="batchModal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Batch Details</h3>
+        <button class="modal-close" id="closeBatchModal">&times;</button>
+      </div>
+      <div class="modal-body" id="batchModalBody">
+        <!-- Dynamic content -->
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="cancelBatchBtn">Cancel</button>
+        <button class="btn btn-secondary" id="approveBatchBtn">Approve</button>
+        <button class="btn btn-primary" id="executeBatchBtn">Execute Payment</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

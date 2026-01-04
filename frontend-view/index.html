@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LatticA Salary - Confidential Payroll on Mantle</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <span class="logo-icon">🔐</span>
+          <span class="logo-text">LatticA Salary</span>
+        </div>
+        <nav class="nav">
+          <a href="index.html" class="nav-link active">Home</a>
+          <a href="admin.html" class="nav-link">Admin</a>
+          <a href="employee.html" class="nav-link">Employee</a>
+        </nav>
+        <div class="header-right">
+          <div class="network-badge" id="networkBadge">
+            <span class="network-dot"></span>
+            <span class="network-name">Not Connected</span>
+          </div>
+          <button class="connect-btn" id="connectBtn">
+            <span class="wallet-icon">👛</span>
+            <span class="btn-text">Connect Wallet</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-bg">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+      </div>
+      <div class="hero-content">
+        <div class="hero-badge">
+          <span>🏆</span> Built for Mantle Hackathon
+        </div>
+        <h1 class="hero-title">
+          <span class="gradient-text">Privacy-First</span> Payroll
+          <br>Powered by FHE
+        </h1>
+        <p class="hero-subtitle">
+          Protect payslip data and salary calculations with Fully Homomorphic Encryption (FHE)
+          <br>
+          <strong>On-chain commitment + Off-chain encrypted storage</strong>
+        </p>
+        <div class="hero-notice">
+          <span class="notice-icon">ℹ️</span>
+          <span>Actual payments are made in USDT and amounts are public. Privacy applies to payslip details and calculation basis.</span>
+        </div>
+        <div class="hero-buttons">
+          <a href="admin.html" class="btn btn-primary">
+            <span>👨‍💼</span> Admin Portal
+          </a>
+          <a href="employee.html" class="btn btn-secondary">
+            <span>👤</span> Employee Portal
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- What We Protect Section -->
+    <section class="protection-section">
+      <h2 class="section-title">What We Protect</h2>
+      <div class="protection-grid">
+        <div class="protection-card protected">
+          <div class="protection-header">
+            <span class="protection-icon">🔒</span>
+            <span class="protection-status">Protected (FHE Encrypted)</span>
+          </div>
+          <ul class="protection-list">
+            <li>Payslip details (salary breakdown)</li>
+            <li>Tax/deduction calculation basis</li>
+            <li>Personal salary history</li>
+            <li>Performance bonus details</li>
+            <li>Employee PII (name, department)</li>
+          </ul>
+        </div>
+        <div class="protection-card public">
+          <div class="protection-header">
+            <span class="protection-icon">🌐</span>
+            <span class="protection-status">Public (On-chain)</span>
+          </div>
+          <ul class="protection-list">
+            <li>USDT transfer amounts (blockchain nature)</li>
+            <li>Payment transaction hashes</li>
+            <li>Batch execution records</li>
+            <li>Contract events</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section class="architecture-section">
+      <h2 class="section-title">System Architecture</h2>
+      <div class="architecture-diagram">
+        <div class="arch-flow">
+          <div class="arch-step">
+            <div class="arch-icon">📝</div>
+            <div class="arch-label">Payslip Data</div>
+            <div class="arch-desc">Original payslip data</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-step highlight">
+            <div class="arch-icon">🔐</div>
+            <div class="arch-label">FHE16 Encrypt</div>
+            <div class="arch-desc">Encrypted in browser</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-step">
+            <div class="arch-icon">☁️</div>
+            <div class="arch-label">Off-chain Storage</div>
+            <div class="arch-desc">Store encrypted JSON</div>
+          </div>
+          <div class="arch-arrow">→</div>
+          <div class="arch-step">
+            <div class="arch-icon">⛓️</div>
+            <div class="arch-label">On-chain Commit</div>
+            <div class="arch-desc">Record hash(CID)</div>
+          </div>
+        </div>
+        <div class="arch-note">
+          <strong>Key Point:</strong> Only commitment stored on-chain. Encrypted payroll data kept off-chain.
+          Personal information (PII) is never stored on-chain.
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+      <h2 class="section-title">Core Features</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>Encrypted Payslips</h3>
+          <p>Payslips encrypted with FHE16. Only the employee can decrypt.</p>
+          <div class="feature-tag">Privacy</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💵</div>
+          <h3>USDT Batch Payment</h3>
+          <p>Bulk payments via CSV upload. MockUSDT(Testnet) / Real USDT(Mainnet)</p>
+          <div class="feature-tag">Payment</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">👁️</div>
+          <h3>Selective Disclosure</h3>
+          <p>Employee: full details / Company: totals only / Auditor: specific periods</p>
+          <div class="feature-tag">Compliance</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">✅</div>
+          <h3>Multi-sig Approval</h3>
+          <p>Draft → Pending Approval → Executed workflow</p>
+          <div class="feature-tag">Security</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>Compliance Reports</h3>
+          <p>Monthly payment/tax/deduction reports. CSV download supported.</p>
+          <div class="feature-tag">Accounting</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔗</div>
+          <h3>On-chain Commitment</h3>
+          <p>Integrity guaranteed via hash(CID || period || employeeId) record</p>
+          <div class="feature-tag">Integrity</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+      <h2 class="section-title">Workflow</h2>
+      <div class="workflow-tabs">
+        <button class="workflow-tab active" data-tab="admin">Admin Flow</button>
+        <button class="workflow-tab" data-tab="employee">Employee Flow</button>
+      </div>
+      <div class="workflow-content" id="adminFlow">
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h3>CSV Upload</h3>
+              <p>Upload employee addresses, amounts, memos</p>
+            </div>
+          </div>
+          <div class="step-arrow">→</div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h3>Encrypt & Store</h3>
+              <p>FHE16 encrypt → Store off-chain</p>
+            </div>
+          </div>
+          <div class="step-arrow">→</div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h3>Create Batch</h3>
+              <p>Create payment batch (Draft status)</p>
+            </div>
+          </div>
+          <div class="step-arrow">→</div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h3>Approve & Execute</h3>
+              <p>After approval, batch transfer USDT</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="workflow-content hidden" id="employeeFlow">
+        <div class="steps">
+          <div class="step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h3>Connect Wallet</h3>
+              <p>Authenticate with your wallet</p>
+            </div>
+          </div>
+          <div class="step-arrow">→</div>
+          <div class="step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h3>View History</h3>
+              <p>View encrypted salary history</p>
+            </div>
+          </div>
+          <div class="step-arrow">→</div>
+          <div class="step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h3>Decrypt Payslip</h3>
+              <p>Decrypt payslip with your key</p>
+            </div>
+          </div>
+          <div class="step-arrow">→</div>
+          <div class="step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h3>Download PDF</h3>
+              <p>Download signed payslip</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tech Stack -->
+    <section class="tech-stack">
+      <h2 class="section-title">Technology Stack</h2>
+      <div class="tech-grid">
+        <div class="tech-item">
+          <div class="tech-icon">🔐</div>
+          <div class="tech-name">FHE16</div>
+          <div class="tech-desc">16-bit Fully Homomorphic Encryption</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">⛓️</div>
+          <div class="tech-name">Mantle Sepolia</div>
+          <div class="tech-desc">Chain ID: 5003</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">💵</div>
+          <div class="tech-name">USDT</div>
+          <div class="tech-desc">MockUSDT (Testnet)</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">📦</div>
+          <div class="tech-name">Solidity</div>
+          <div class="tech-desc">Smart Contracts</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">🌐</div>
+          <div class="tech-name">ethers.js</div>
+          <div class="tech-desc">Web3 Integration</div>
+        </div>
+        <div class="tech-item">
+          <div class="tech-icon">⚡</div>
+          <div class="tech-name">WASM</div>
+          <div class="tech-desc">Browser FHE</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Roadmap -->
+    <section class="roadmap-section">
+      <h2 class="section-title">Roadmap</h2>
+      <div class="roadmap">
+        <div class="roadmap-item current">
+          <div class="roadmap-marker"></div>
+          <div class="roadmap-content">
+            <div class="roadmap-phase">Phase 1 - Hackathon MVP</div>
+            <ul>
+              <li>✅ Encrypted payslip storage</li>
+              <li>✅ USDT batch payment</li>
+              <li>✅ Basic admin/employee portal</li>
+              <li>🔄 Selective disclosure demo</li>
+            </ul>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-marker"></div>
+          <div class="roadmap-content">
+            <div class="roadmap-phase">Phase 2 - Production</div>
+            <ul>
+              <li>Multi-sig approval workflow</li>
+              <li>KYC issuer integration</li>
+              <li>Real USDT on Mantle mainnet</li>
+              <li>Accounting system integration</li>
+            </ul>
+          </div>
+        </div>
+        <div class="roadmap-item">
+          <div class="roadmap-marker"></div>
+          <div class="roadmap-content">
+            <div class="roadmap-phase">Phase 3 - Advanced</div>
+            <ul>
+              <li>Salary streaming (Sablier-style)</li>
+              <li>Earned wage access</li>
+              <li>Multi-token support (USDC)</li>
+              <li>Global compliance (100+ jurisdictions)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="cta-content">
+        <h2>Ready to Try?</h2>
+        <p>Experience it yourself on Mantle Sepolia testnet</p>
+        <div class="cta-buttons">
+          <a href="https://faucet.sepolia.mantle.xyz" target="_blank" class="btn btn-outline">
+            <span>🚰</span> Get Test MNT
+          </a>
+          <a href="admin.html" class="btn btn-primary">
+            <span>🚀</span> Launch App
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <div class="footer-info">
+          <p><strong>Network:</strong> Mantle Sepolia (Chain ID: 5003)</p>
+          <p><strong>Token:</strong> MockUSDT (6 decimals)</p>
+        </div>
+        <div class="footer-links">
+          <a href="https://faucet.sepolia.mantle.xyz" target="_blank">Mantle Faucet</a>
+          <span>|</span>
+          <a href="https://sepolia.mantlescan.xyz" target="_blank">Block Explorer</a>
+          <span>|</span>
+          <a href="https://github.com" target="_blank">GitHub</a>
+        </div>
+        <p class="copyright">© 2025 LatticA Salary. Built for Mantle Hackathon.</p>
+      </div>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

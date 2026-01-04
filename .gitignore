@@ -1,0 +1,132 @@
+# ===================
+# Dependencies
+# ===================
+node_modules/
+**/node_modules/
+.pnp
+.pnp.js
+
+# ===================
+# Environment files (contain secrets)
+# ===================
+.env
+.env.local
+.env.*.local
+.env.production
+.env.development
+frontend/.env.local
+executor/.env
+
+# ===================
+# Build artifacts
+# ===================
+# Hardhat
+cache/
+artifacts/
+typechain/
+typechain-types/
+coverage/
+coverage.json
+
+# Next.js
+frontend/.next/
+frontend/out/
+frontend/build/
+.next/
+
+# General build
+dist/
+build/
+*.tsbuildinfo
+
+# ===================
+# FHE binary files (large, machine-specific)
+# ===================
+*.bin
+lib/fhe16/bootparam.bin
+lib/fhe16/lib/
+executor/FHE16/store/*.bin
+executor/FHE16/lib/
+frontend/public/pk.bin
+frontend/public/fhe16.wasm
+frontend/public/fhe16.js
+
+# TFHE headers (auto-generated)
+**/tfhe_header/
+
+# ===================
+# Native libraries
+# ===================
+*.so
+*.dylib
+*.dll
+*.node
+*.wasm
+
+# ===================
+# IDE & Editor
+# ===================
+.vscode/
+.idea/
+*.swp
+*.swo
+*.sublime-*
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+
+# ===================
+# OS files
+# ===================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*~
+desktop.ini
+
+# ===================
+# Logs
+# ===================
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+pnpm-debug.log*
+
+# ===================
+# Test artifacts
+# ===================
+*.lcov
+.nyc_output/
+jest-results/
+test-results/
+
+# ===================
+# Claude Code
+# ===================
+.claude/
+
+# ===================
+# Misc
+# ===================
+*.tgz
+*.tar.gz
+*.zip
+*.rar
+*.7z
+.temp/
+.tmp/
+temp/
+tmp/
+
+# Package manager locks (keep package-lock.json, ignore others)
+yarn.lock
+pnpm-lock.yaml

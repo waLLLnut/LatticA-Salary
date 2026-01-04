@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Portal - LatticA Salary</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+  <div class="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <div class="logo">
+          <span class="logo-icon">🔐</span>
+          <span class="logo-text">LatticA Salary</span>
+        </div>
+        <nav class="nav">
+          <a href="index.html" class="nav-link">Home</a>
+          <a href="admin.html" class="nav-link">Admin</a>
+          <a href="employee.html" class="nav-link active">Employee</a>
+        </nav>
+        <div class="header-right">
+          <div class="network-badge" id="networkBadge">
+            <span class="network-dot"></span>
+            <span class="network-name">Not Connected</span>
+          </div>
+          <button class="connect-btn" id="connectBtn">
+            <span class="wallet-icon">👛</span>
+            <span class="btn-text">Connect Wallet</span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Dashboard -->
+    <main class="dashboard">
+      <div class="dashboard-header">
+        <div class="dashboard-title">
+          <h1>👤 Employee Portal</h1>
+          <p>View salary information and download payslips</p>
+        </div>
+      </div>
+
+      <!-- Not Connected State -->
+      <div class="not-connected-state" id="notConnectedState">
+        <div class="connect-prompt">
+          <div class="prompt-icon">🔗</div>
+          <h2>Connect Your Wallet</h2>
+          <p>Connect with your registered wallet to view salary information.</p>
+          <button class="btn btn-primary" id="connectPromptBtn">
+            <span>👛</span> Connect Wallet
+          </button>
+        </div>
+      </div>
+
+      <!-- Connected State -->
+      <div class="connected-state" id="connectedState" style="display: none;">
+
+        <!-- Balance Card -->
+        <div class="balance-section">
+          <div class="balance-card">
+            <div class="balance-header">
+              <div class="balance-title">
+                <span class="balance-label">My USDT Balance</span>
+                <span class="balance-badge public">On-chain (Public)</span>
+              </div>
+              <button class="btn btn-sm btn-outline" id="refreshBalanceBtn">
+                <span>🔄</span>
+              </button>
+            </div>
+            <div class="balance-amount" id="balanceDisplay">
+              <span class="balance-value">0.00</span>
+              <span class="balance-unit">USDT</span>
+            </div>
+            <div class="balance-info">
+              <span class="info-icon">ℹ️</span>
+              <span>USDT balance is public due to blockchain nature</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Privacy Notice -->
+        <div class="privacy-notice">
+          <div class="notice-header">
+            <span class="notice-icon">🔒</span>
+            <span class="notice-title">Privacy Protection Status</span>
+          </div>
+          <div class="notice-content">
+            <div class="notice-item protected">
+              <span class="item-status">✅ Protected</span>
+              <span class="item-label">Payslips, tax calculation details, personal info</span>
+            </div>
+            <div class="notice-item public">
+              <span class="item-status">🌐 Public</span>
+              <span class="item-label">USDT received amounts, transaction hashes</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid stats-3">
+          <div class="stat-card">
+            <div class="stat-icon">📅</div>
+            <div class="stat-info">
+              <span class="stat-value" id="paymentCount">0</span>
+              <span class="stat-label">Payments Received</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-info">
+              <span class="stat-value" id="totalReceived">0</span>
+              <span class="stat-label">Total Received (USDT)</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">🔐</div>
+            <div class="stat-info">
+              <span class="stat-value" id="encryptedPayslips">0</span>
+              <span class="stat-label">Encrypted Payslips</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="dashboard-grid">
+
+          <!-- Encrypted Payslips -->
+          <div class="card">
+            <div class="card-header">
+              <h2>🔐 My Payslips</h2>
+              <span class="card-badge">FHE Encrypted</span>
+            </div>
+            <div class="payslip-list" id="payslipList">
+              <div class="empty-state">
+                <span class="empty-icon">📭</span>
+                <p>No payslips yet</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Decrypt & View -->
+          <div class="card">
+            <div class="card-header">
+              <h2>🔓 Decrypt Payslip</h2>
+            </div>
+            <div class="decrypt-section">
+              <div class="decrypt-info">
+                <p>Click the button below to decrypt your payslip.</p>
+                <p class="decrypt-hint">Only your wallet key can decrypt this.</p>
+              </div>
+              <div class="decrypt-select">
+                <label>Select Payslip</label>
+                <select class="input" id="payslipSelect" disabled>
+                  <option value="">-- Select a payslip --</option>
+                </select>
+              </div>
+              <button class="btn btn-primary btn-full" id="decryptPayslipBtn" disabled>
+                <span>🔓</span> Decrypt Selected Payslip
+              </button>
+            </div>
+
+            <!-- Decrypted Result -->
+            <div class="decrypted-result" id="decryptedResult" style="display: none;">
+              <div class="result-header">
+                <h3>📄 Payslip Details</h3>
+                <span class="result-period" id="resultPeriod">-</span>
+              </div>
+              <div class="payslip-details">
+                <div class="detail-row">
+                  <span class="detail-label">Base Salary</span>
+                  <span class="detail-value" id="detailBase">-</span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-label">Tax Deduction</span>
+                  <span class="detail-value negative" id="detailTax">-</span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-label">Other Deductions</span>
+                  <span class="detail-value negative" id="detailOther">-</span>
+                </div>
+                <div class="detail-divider"></div>
+                <div class="detail-row total">
+                  <span class="detail-label">Net Amount</span>
+                  <span class="detail-value highlight" id="detailNet">-</span>
+                </div>
+              </div>
+              <div class="result-actions">
+                <button class="btn btn-secondary btn-sm" id="downloadPdfBtn">
+                  <span>📥</span> Download PDF
+                </button>
+                <button class="btn btn-outline btn-sm" id="verifyOnChainBtn">
+                  <span>🔗</span> Verify On-chain
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Payment History -->
+          <div class="card card-wide">
+            <div class="card-header">
+              <h2>📜 Payment History</h2>
+              <div class="history-actions">
+                <select class="filter-select" id="historyFilter">
+                  <option value="all">All Time</option>
+                  <option value="3m">Last 3 Months</option>
+                  <option value="6m">Last 6 Months</option>
+                  <option value="1y">This Year</option>
+                </select>
+                <button class="btn btn-outline btn-sm" id="exportHistoryBtn">
+                  <span>📥</span> Export
+                </button>
+              </div>
+            </div>
+            <div class="table-container">
+              <table class="table" id="paymentHistoryTable">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Period</th>
+                    <th>Amount (USDT)</th>
+                    <th>Tx Hash</th>
+                    <th>Payslip</th>
+                  </tr>
+                </thead>
+                <tbody id="paymentHistoryBody">
+                  <tr class="empty-row">
+                    <td colspan="5">
+                      <div class="empty-state">
+                        <span class="empty-icon">📭</span>
+                        <p>No payment history</p>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Selective Disclosure -->
+          <div class="card">
+            <div class="card-header">
+              <h2>👁️ Selective Disclosure</h2>
+            </div>
+            <div class="disclosure-section">
+              <p class="disclosure-desc">You can disclose salary information for specific periods to auditors.</p>
+              <div class="disclosure-form">
+                <div class="form-group">
+                  <label>Period to Disclose</label>
+                  <select class="input" id="disclosePeriod">
+                    <option value="">-- Select period --</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label>Auditor Address</label>
+                  <input type="text" class="input" id="auditorAddress" placeholder="0x...">
+                </div>
+                <div class="form-group">
+                  <label>Disclosure Level</label>
+                  <select class="input" id="disclosureLevel">
+                    <option value="summary">Summary Only (totals)</option>
+                    <option value="full">Full Details (complete breakdown)</option>
+                  </select>
+                </div>
+                <button class="btn btn-secondary btn-full" id="createDisclosureBtn" disabled>
+                  <span>🔑</span> Create Access Link
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Account Info -->
+          <div class="card">
+            <div class="card-header">
+              <h2>👤 My Account</h2>
+            </div>
+            <div class="account-info">
+              <div class="info-row">
+                <span class="info-label">Wallet Address</span>
+                <span class="info-value address" id="myAddress">-</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Employee ID</span>
+                <span class="info-value" id="myEmployeeId">-</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Registration Date</span>
+                <span class="info-value" id="myRegDate">-</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Status</span>
+                <span class="info-value">
+                  <span class="badge badge-success" id="myStatus">Active</span>
+                </span>
+              </div>
+            </div>
+            <div class="account-actions">
+              <button class="btn btn-outline btn-sm" id="updateAddressBtn">
+                <span>✏️</span> Update Receiving Address
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- PDF Preview Modal -->
+  <div class="modal" id="pdfModal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content modal-lg">
+      <div class="modal-header">
+        <h3>📄 Payslip Preview</h3>
+        <button class="modal-close" id="closePdfModal">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="pdf-preview" id="pdfPreview">
+          <!-- PDF content will be rendered here -->
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-outline" id="closePdfBtn">Close</button>
+        <button class="btn btn-primary" id="savePdfBtn">
+          <span>💾</span> Save PDF
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
