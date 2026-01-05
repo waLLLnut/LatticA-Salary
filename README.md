@@ -286,14 +286,32 @@ await registerEmployee('EMP-001', '0x...', commitment);
 | Change Date | 2030-01-01 |
 | Change License | Apache License 2.0 |
 
-**Current permissions (before Change Date):**
-- Non-production use (development, testing, research)
+### Permitted Use
+
+**Non-production use** is always permitted:
+- Development, testing, research
 - Academic and educational purposes
-- Personal non-commercial projects
+
+**Production use** is permitted only for:
+- Deployment on public blockchain testnets (e.g., Mantle Sepolia, Goerli)
+- Academic or research purposes on any network
+
+### What Requires a Commercial License
+
+| Use Case | License Required? |
+|----------|-------------------|
+| Local development | No |
+| Testnet deployment | No |
+| Academic research on mainnet | No |
+| Commercial mainnet deployment | **Yes** |
+| Revenue-generating dApp | **Yes** |
+| Enterprise internal use | **Yes** |
 
 **After 2030-01-01:** This software becomes Apache 2.0 licensed (full open source).
 
 For commercial licensing, contact: [walllnut@walllnut.com](mailto:walllnut@walllnut.com)
+
+See [LICENSE](LICENSE) for full terms. Change License text: [Apache-2.0](licenses/Apache-2.0.txt)
 
 ## Contact
 

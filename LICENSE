@@ -8,10 +8,10 @@ Parameters
 Licensor:             waLLLnut
 Licensed Work:        LatticA
                       The Licensed Work is (c) 2025 waLLLnut
-Additional Use Grant: You may use the Licensed Work for:
-                      - Non-production use (development, testing, research)
-                      - Academic and educational purposes
-                      - Personal non-commercial projects
+Additional Use Grant: Production use is permitted only for:
+                      (a) Deployment and operation on public blockchain testnets
+                      (b) Academic or research purposes on any network
+                      All other production use requires a commercial license.
                       
 Change Date:          2030-01-01
 
