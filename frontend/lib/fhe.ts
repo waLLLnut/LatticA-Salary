@@ -5,10 +5,7 @@
  *
  * Copyright (c) 2025 waLLLnut
  * Project: LatticA
- * License: LatticA Restrictive License v1.0
- *
- * This file is part of the LatticA project.
- * Commercial use is prohibited without explicit written permission.
+ * License: BSL 1.1 (Change Date: 2030-01-01, Change License: Apache-2.0)
  *
  * Contact: walllnut@walllnut.com
  * Maintainer: Seunghwan Lee <shlee@walllnut.com>

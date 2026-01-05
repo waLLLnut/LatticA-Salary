@@ -4,7 +4,7 @@
 
 > Built for Mantle Hackathon 2025
 
-[![License: LatticA Restrictive](https://img.shields.io/badge/License-LatticA%20Restrictive-blue.svg)](LICENSE)
+[![License: BSL 1.1](https://img.shields.io/badge/License-BSL%201.1-blue.svg)](LICENSE)
 
 **Copyright (c) 2025 waLLLnut** | [walllnut@walllnut.com](mailto:walllnut@walllnut.com)
 
@@ -278,18 +278,22 @@ await registerEmployee('EMP-001', '0x...', commitment);
 
 ## License
 
-**LatticA Restrictive License v1.0**
+**Business Source License 1.1 (BSL 1.1)**
 
-This software is licensed under a restrictive license that permits use ONLY for:
-- **Blockchain development** (smart contracts, dApps, protocols)
-- **Academic and research purposes** (non-commercial)
-- **Personal and non-commercial use**
+| Parameter | Value |
+|-----------|-------|
+| Licensor | waLLLnut |
+| Change Date | 2030-01-01 |
+| Change License | Apache License 2.0 |
 
-**Commercial use is strictly prohibited** without explicit written permission from waLLLnut.
+**Current permissions (before Change Date):**
+- Non-production use (development, testing, research)
+- Academic and educational purposes
+- Personal non-commercial projects
 
-See the [LICENSE](LICENSE) file for the full license text.
+**After 2030-01-01:** This software becomes Apache 2.0 licensed (full open source).
 
-For commercial licensing inquiries, contact: [walllnut@walllnut.com](mailto:walllnut@walllnut.com)
+For commercial licensing, contact: [walllnut@walllnut.com](mailto:walllnut@walllnut.com)
 
 ## Contact
 
