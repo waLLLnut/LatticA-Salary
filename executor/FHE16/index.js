@@ -1,4 +1,16 @@
-// FHE16/index.js — dynamic C++ symbol binding with explicit mangled names
+/**
+ * FHE16/index.js — dynamic C++ symbol binding with explicit mangled names
+ *
+ * Copyright (c) 2025 waLLLnut
+ * Project: LatticA
+ * License: LatticA Restrictive License v1.0
+ *
+ * This file is part of the LatticA project.
+ * Commercial use is prohibited without explicit written permission.
+ *
+ * Contact: walllnut@walllnut.com
+ * Maintainer: Seunghwan Lee <shlee@walllnut.com>
+ */
 const path = require('path');
 const ffi = require('ffi-napi');
 const ref = require('ref-napi');

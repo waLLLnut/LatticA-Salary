@@ -4,6 +4,10 @@
 
 > Built for Mantle Hackathon 2025
 
+[![License: LatticA Restrictive](https://img.shields.io/badge/License-LatticA%20Restrictive-blue.svg)](LICENSE)
+
+**Copyright (c) 2025 waLLLnut** | [walllnut@walllnut.com](mailto:walllnut@walllnut.com)
+
 ## Overview
 
 LatticA Salary is a confidential payroll system that protects sensitive salary information using FHE16 encryption while leveraging the Mantle blockchain for transparent USDT payments.
@@ -274,14 +278,29 @@ await registerEmployee('EMP-001', '0x...', commitment);
 
 ## License
 
-MIT License
+**LatticA Restrictive License v1.0**
+
+This software is licensed under a restrictive license that permits use ONLY for:
+- **Blockchain development** (smart contracts, dApps, protocols)
+- **Academic and research purposes** (non-commercial)
+- **Personal and non-commercial use**
+
+**Commercial use is strictly prohibited** without explicit written permission from waLLLnut.
+
+See the [LICENSE](LICENSE) file for the full license text.
+
+For commercial licensing inquiries, contact: [walllnut@walllnut.com](mailto:walllnut@walllnut.com)
 
 ## Contact
 
+- **Organization**: waLLLnut
 - **Author**: Seunghwan Lee
-- **Email**: shlee@walllnut.com
+- **Email**: [shlee@walllnut.com](mailto:shlee@walllnut.com)
+- **General Inquiries**: [walllnut@walllnut.com](mailto:walllnut@walllnut.com)
 - **GitHub**: [@waLLLnut](https://github.com/waLLLnut)
 
 ---
 
 Built with privacy in mind for Mantle Hackathon 2025
+
+Copyright (c) 2025 waLLLnut. All rights reserved.

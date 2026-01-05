@@ -1,4 +1,10 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: LicenseRef-LatticA-Restrictive
+// Copyright (c) 2025 waLLLnut
+// Project: LatticA
+// License: LatticA Restrictive License v1.0
+// Commercial use is prohibited without explicit written permission.
+// Contact: walllnut@walllnut.com | Maintainer: Seunghwan Lee <shlee@walllnut.com>
+
 pragma solidity ^0.8.28;
 
 import "@openzeppelin/contracts/access/AccessControl.sol";
@@ -9,6 +15,7 @@ import "./CERC20.sol";
  * @title SalaryPayroll
  * @notice Confidential salary payment system using FHE16 encrypted amounts
  * @dev Manages salary payments, history, and compliance features
+ * @author waLLLnut (https://walllnut.com)
  */
 contract SalaryPayroll is AccessControl, ReentrancyGuard {
 

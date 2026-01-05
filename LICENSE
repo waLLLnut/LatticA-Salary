@@ -1,0 +1,104 @@
+LatticA Restrictive License v1.0
+
+Copyright (c) 2025 waLLLnut
+All rights reserved.
+
+Project: LatticA
+Maintainer: Seunghwan Lee <shlee@walllnut.com>
+Contact: walllnut@walllnut.com
+
+================================================================================
+PERMITTED USES
+================================================================================
+
+This software and associated documentation files (the "Software") may be used,
+copied, modified, and distributed ONLY for the following purposes:
+
+1. BLOCKCHAIN DEVELOPMENT
+   - Smart contract development and deployment
+   - Decentralized application (dApp) development
+   - Protocol development and integration
+   - Node operation and network participation
+
+2. ACADEMIC AND RESEARCH PURPOSES
+   - Academic research and publications
+   - Educational use in universities and institutions
+   - Non-commercial research projects
+   - Proof-of-concept implementations for research papers
+
+3. PERSONAL AND NON-COMMERCIAL USE
+   - Personal learning and experimentation
+   - Open source contributions to this project
+   - Non-commercial demonstrations
+
+================================================================================
+PROHIBITED USES
+================================================================================
+
+The following uses are STRICTLY PROHIBITED without explicit written permission
+from waLLLnut:
+
+1. COMMERCIAL USE
+   - Selling, licensing, or sublicensing the Software
+   - Using the Software in commercial products or services
+   - Offering the Software as a service (SaaS, PaaS, etc.)
+   - Using the Software in revenue-generating applications
+   - Integration into proprietary commercial software
+
+2. DERIVATIVE COMMERCIAL WORKS
+   - Creating commercial products derived from this Software
+   - Forking for commercial purposes
+   - White-labeling or rebranding for sale
+
+3. COMPETING PRODUCTS
+   - Using the Software to create competing FHE/encryption products
+   - Building payroll or financial systems for commercial sale
+
+================================================================================
+CONDITIONS
+================================================================================
+
+1. ATTRIBUTION
+   All copies or substantial portions of the Software must include:
+   - This license notice
+   - Copyright notice
+   - Clear attribution to waLLLnut and the LatticA project
+
+2. MODIFICATIONS
+   - Modifications for permitted uses are allowed
+   - Modified versions must retain this license
+   - Modifications must be clearly marked as such
+
+3. NO WARRANTY
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+
+4. LIMITATION OF LIABILITY
+   IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+   DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+   OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+   USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+================================================================================
+COMMERCIAL LICENSING
+================================================================================
+
+For commercial use, enterprise licensing, or any use not covered by the
+permitted uses above, please contact:
+
+waLLLnut
+Email: walllnut@walllnut.com
+       shlee@walllnut.com
+
+================================================================================
+THIRD-PARTY COMPONENTS
+================================================================================
+
+This Software may include third-party components with their own licenses.
+Please refer to the respective LICENSE files in subdirectories and
+node_modules for third-party license terms.
+
+================================================================================
+
+By using this Software, you agree to be bound by the terms of this license.

@@ -1,3 +1,17 @@
+/**
+ * FHE Executor Server
+ *
+ * Copyright (c) 2025 waLLLnut
+ * Project: LatticA
+ * License: LatticA Restrictive License v1.0
+ *
+ * This file is part of the LatticA project.
+ * Commercial use is prohibited without explicit written permission.
+ *
+ * Contact: walllnut@walllnut.com
+ * Maintainer: Seunghwan Lee <shlee@walllnut.com>
+ */
+
 /* eslint-disable no-console */
 require('dotenv').config();
 const http = require('http');

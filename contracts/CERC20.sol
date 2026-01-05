@@ -1,4 +1,10 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: LicenseRef-LatticA-Restrictive
+// Copyright (c) 2025 waLLLnut
+// Project: LatticA
+// License: LatticA Restrictive License v1.0
+// Commercial use is prohibited without explicit written permission.
+// Contact: walllnut@walllnut.com | Maintainer: Seunghwan Lee <shlee@walllnut.com>
+
 pragma solidity ^0.8.28;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -8,6 +14,7 @@ import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
  * @title CERC20 - Confidential ERC20 Token
  * @notice ERC20-like token with encrypted balances using FHE16
  * @dev Balances are stored as encrypted ciphertexts (bytes32 CID pointers)
+ * @author waLLLnut (https://walllnut.com)
  */
 contract CERC20 is Ownable, ReentrancyGuard {
 
