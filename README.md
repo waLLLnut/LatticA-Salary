@@ -10,53 +10,84 @@
 
 ## Overview
 
-LatticA Salary is a confidential payroll system that protects sensitive salary information using FHE16 encryption while leveraging the Mantle blockchain for transparent USDT payments.
+LatticA Salary is a **privacy-preserving payroll system** that protects both salary details AND payment amounts using:
 
-### What's Protected (FHE Encrypted)
-- Payslip details (salary breakdown)
-- Tax/deduction calculation basis
-- Personal salary history
-- Employee PII (name, department)
+1. **FHE16** - Fully Homomorphic Encryption for salary data
+2. **zkBob** - Zero-knowledge proofs for confidential withdrawals (CC0/MIT licensed)
 
-### What's Public (On-chain)
-- USDT transfer amounts (blockchain nature)
-- Payment transaction hashes
-- Batch execution records
+### Privacy Guarantees
+
+| Data | Visibility | Technology |
+|------|------------|------------|
+| Salary details (payslip) | Hidden | FHE16 Encryption |
+| Payment amounts | Hidden | ZK Proofs (zkBob) |
+| Total pool deposits | Visible | - |
+| Recipient addresses | Visible | - |
 
 ## Architecture
 
 ```
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│   Admin Portal  │     │ Employee Portal │     │  Smart Contract │
-│   (Next.js)     │     │   (Next.js)     │     │   (Solidity)    │
-└────────┬────────┘     └────────┬────────┘     └────────┬────────┘
-         │                       │                       │
-         ▼                       ▼                       ▼
-┌─────────────────────────────────────────────────────────────────┐
-│                    FHE16 WASM Module (Browser)                  │
-│                    - Encrypt payslips                           │
-│                    - Generate CID (commitment)                  │
-└─────────────────────────────────────────────────────────────────┘
-         │                       │                       │
-         ▼                       ▼                       ▼
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
-│  Off-chain      │     │   Mantle        │     │   MockUSDT      │
-│  Storage        │◄────│   Sepolia       │────►│   Contract      │
-│  (Encrypted)    │     │   (Chain 5003)  │     │   (ERC20)       │
-└─────────────────┘     └─────────────────┘     └─────────────────┘
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                              ADMIN FLOW                                       │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌────────────┐ │
+│  │ CSV Upload  │────▶│ FHE16.enc() │────▶│ Commitment  │────▶│  On-chain  │ │
+│  │ (salaries)  │     │  (WASM)     │     │ Generation  │     │  Register  │ │
+│  └─────────────┘     └─────────────┘     └─────────────┘     └────────────┘ │
+│                                                                              │
+│  ┌─────────────┐                                              ┌────────────┐ │
+│  │ Pool Deposit│─────────────────────────────────────────────▶│ Confidential│ │
+│  │ (Total)     │                                              │ SalaryPool │ │
+│  └─────────────┘                                              └────────────┘ │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+
+┌──────────────────────────────────────────────────────────────────────────────┐
+│                             EMPLOYEE FLOW                                     │
+├──────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌────────────┐ │
+│  │ Fetch       │────▶│ FHE16.dec() │────▶│ View Salary │────▶│ ZK Proof   │ │
+│  │ Encrypted   │     │  (WASM)     │     │  Details    │     │ Generation │ │
+│  └─────────────┘     └─────────────┘     └─────────────┘     └─────┬──────┘ │
+│                                                                     │        │
+│                                                                     ▼        │
+│  ┌─────────────┐     ┌─────────────┐     ┌─────────────┐     ┌────────────┐ │
+│  │ Receive     │◀────│ Pool.       │◀────│ Verify      │◀────│ Submit     │ │
+│  │ Tokens      │     │ withdraw()  │     │ ZK Proof    │     │ to Chain   │ │
+│  └─────────────┘     └─────────────┘     └─────────────┘     └────────────┘ │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘
+```
+
+## Key Innovation: Confidential Pool
+
+Traditional blockchain payroll exposes all payment amounts:
+```
+❌ Company → Alice: 5,000 USDT (PUBLIC!)
+❌ Company → Bob: 8,000 USDT (PUBLIC!)
+```
+
+LatticA uses a pool-based approach with ZK proofs:
+```
+✅ Company → Pool: 13,000 USDT (only total visible)
+✅ Pool → Alice: ??? (amount hidden by ZK proof)
+✅ Pool → Bob: ??? (amount hidden by ZK proof)
 ```
 
 ## Tech Stack
 
-| Component | Technology |
-|-----------|------------|
-| Blockchain | Mantle Sepolia (Chain ID: 5003) |
-| Token | MockUSDT (ERC20, 6 decimals) |
-| Encryption | FHE16 (16-bit Fully Homomorphic Encryption) |
-| Frontend | Next.js 15 + React 19 + Tailwind CSS |
-| Smart Contracts | Solidity + Hardhat |
-| Web3 | ethers.js v6 |
-| FHE Runtime | WebAssembly (WASM) |
+| Component | Technology | License |
+|-----------|------------|---------|
+| Blockchain | Mantle Sepolia (Chain ID: 5003) | - |
+| Token | MockUSDT (ERC20, 6 decimals) | - |
+| Encryption | FHE16 (16-bit FHE) | Proprietary |
+| ZK Proofs | zkBob (Privacy Pool) | CC0/MIT |
+| Frontend | Next.js 15 + React 19 | MIT |
+| Smart Contracts | Solidity + Hardhat | - |
+| Web3 | ethers.js v6 | MIT |
+| FHE Runtime | WebAssembly (WASM) | - |
 
 ## Quick Start
 
@@ -132,8 +163,13 @@ LatticA-Salary/
 │   └── app.js
 │
 ├── contracts/                # Solidity smart contracts
-│   ├── MockUSDT.sol          # Test USDT token
-│   └── ConfidentialPayroll.sol # Main payroll contract
+│   ├── CERC20.sol            # MockUSDT token
+│   ├── SalaryPayroll.sol     # Basic payroll contract
+│   ├── ConfidentialSalaryPool.sol # FHE+ZK integrated pool
+│   ├── zkbob/                # zkBob contracts (CC0/MIT)
+│   ├── interfaces/           # Contract interfaces
+│   ├── libraries/            # Utility libraries
+│   └── proxy/                # Proxy contracts
 │
 ├── lib/                      # FHE16 Node.js library
 │   └── fhe16/
@@ -324,5 +360,18 @@ See [LICENSE](LICENSE) for full terms. Change License text: [Apache-2.0](license
 ---
 
 Built with privacy in mind for Mantle Hackathon 2025
+
+## Third-Party Licenses
+
+This project uses the following open-source components:
+
+| Component | License | Source |
+|-----------|---------|--------|
+| zkBob Contracts | CC0-1.0 / MIT | [github.com/zkBob/zkbob-contracts](https://github.com/zkBob/zkbob-contracts) |
+| OpenZeppelin | MIT | [github.com/OpenZeppelin/openzeppelin-contracts](https://github.com/OpenZeppelin/openzeppelin-contracts) |
+
+See [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md) for full details.
+
+---
 
 Copyright (c) 2025 waLLLnut. All rights reserved.

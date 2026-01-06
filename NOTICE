@@ -1,0 +1,34 @@
+LatticA-Salary
+Copyright (c) 2025 waLLLnut
+
+This product includes software developed by third parties:
+
+================================================================================
+zkBob Contracts
+================================================================================
+Source: https://github.com/zkBob/zkbob-contracts
+License: CC0-1.0 (Public Domain) / MIT (ZeroPool adapted portions)
+Copyright: zkBob Team, ZeroPool (for MIT portions)
+
+Files:
+- contracts/zkbob/*
+- contracts/interfaces/*
+- contracts/libraries/*
+- contracts/utils/*
+- contracts/proxy/*
+
+The zkBob smart contracts are used for implementing privacy-preserving
+token transfers using zero-knowledge proofs.
+
+================================================================================
+OpenZeppelin Contracts
+================================================================================
+Source: https://github.com/OpenZeppelin/openzeppelin-contracts
+License: MIT
+Copyright: OpenZeppelin
+
+Used as a dependency for standard ERC20 implementations and utilities.
+
+================================================================================
+
+For full license texts, see THIRD_PARTY_LICENSES.md
