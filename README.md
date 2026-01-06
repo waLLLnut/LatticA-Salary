@@ -12,100 +12,41 @@
 
 LatticA Salary is a confidential payroll system that protects sensitive salary information using FHE16 encryption while leveraging the Mantle blockchain for transparent USDT payments.
 
-### What's Protected (FHE + ZK)
-- Payslip details (salary breakdown) - **FHE16 encrypted**
-- Tax/deduction calculation basis - **FHE16 encrypted**
-- Personal salary history - **FHE16 encrypted**
-- Employee PII (name, department) - **FHE16 encrypted**
-- **Individual payment amounts** - **ZK proof verified** (NEW!)
+### What's Protected (FHE Encrypted)
+- Payslip details (salary breakdown)
+- Tax/deduction calculation basis
+- Personal salary history
+- Employee PII (name, department)
 
 ### What's Public (On-chain)
-- Total pool deposits (not individual amounts)
-- Payment commitments (hashed, not actual data)
-- Nullifiers (prevents double-spend)
-
-### Key Innovation: Confidential Pool
-
-Traditional blockchain payroll exposes individual salary amounts. LatticA solves this:
-
-```
-❌ Traditional: Admin → 5,000 USDT → Employee (amount visible!)
-✅ LatticA:     Admin → Pool → ZK Proof → Employee (amount hidden!)
-```
+- USDT transfer amounts (blockchain nature)
+- Payment transaction hashes
+- Batch execution records
 
 ## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                         ADMIN PORTAL                                │
-│  ┌─────────────┐    ┌─────────────┐    ┌─────────────────────────┐  │
-│  │ CSV Upload  │───▶│ FHE16.enc() │───▶│ Commitment Generation   │  │
-│  │ (salaries)  │    │ (encrypt)   │    │ Poseidon(enc, secret)   │  │
-│  └─────────────┘    └─────────────┘    └───────────┬─────────────┘  │
-│                                                    │                │
-│  ┌─────────────┐                    ┌──────────────┴──────────────┐ │
-│  │ Pool.deposit│                    │                             │ │
-│  │ (total USDT)│                    ▼                             ▼ │
-│  └──────┬──────┘            ┌─────────────┐            ┌───────────┐│
-│         │                   │ Off-chain   │            │ On-chain  ││
-│         │                   │ (encrypted) │            │ Merkle    ││
-│         │                   └─────────────┘            │ Tree      ││
-│         │                                              └───────────┘│
-└─────────┼───────────────────────────────────────────────────────────┘
-          │
-          ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│                     CONFIDENTIAL POOL (Mantle Sepolia)              │
-│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────────┐  │
-│  │ Pool Balance    │  │ Merkle Root     │  │ Nullifier Registry  │  │
-│  │ 50,000 USDT     │  │ (commitments)   │  │ (prevent double)    │  │
-│  └─────────────────┘  └─────────────────┘  └─────────────────────┘  │
-│                              │                                      │
-│                              │ verify proof                         │
-│                              ▼                                      │
-│                    ┌─────────────────────┐                          │
-│                    │ Groth16 Verifier    │                          │
-│                    │ (ZK proof check)    │                          │
-│                    └─────────────────────┘                          │
-└─────────────────────────────────────────────────────────────────────┘
-          ▲
-          │ withdraw(proof, amount)
-          │
-┌─────────┴───────────────────────────────────────────────────────────┐
-│                       EMPLOYEE PORTAL                               │
-│  ┌─────────────┐    ┌─────────────┐    ┌─────────────────────────┐  │
-│  │ Fetch       │───▶│ FHE16.dec() │───▶│ View Salary: 5000 USDT  │  │
-│  │ Encrypted   │    │ (decrypt)   │    │ (private, only I see)   │  │
-│  └─────────────┘    └─────────────┘    └───────────┬─────────────┘  │
-│                                                    │                │
-│                                                    ▼                │
-│                                         ┌─────────────────────────┐ │
-│                                         │ ZK Proof Generation     │ │
-│                                         │ "I deserve 5000 USDT"   │ │
-│                                         │ (without revealing 5000)│ │
-│                                         └───────────┬─────────────┘ │
-│                                                     │               │
-│  ┌───────────────────────────────────────┐         │               │
-│  │ Receive 5000 USDT                     │◀────────┘               │
-│  │ (observers don't know it's 5000)      │                         │
-│  └───────────────────────────────────────┘                         │
-└─────────────────────────────────────────────────────────────────────┘
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│   Admin Portal  │     │ Employee Portal │     │  Smart Contract │
+│   (Next.js)     │     │   (Next.js)     │     │   (Solidity)    │
+└────────┬────────┘     └────────┬────────┘     └────────┬────────┘
+         │                       │                       │
+         ▼                       ▼                       ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    FHE16 WASM Module (Browser)                  │
+│                    - Encrypt payslips                           │
+│                    - Generate CID (commitment)                  │
+└─────────────────────────────────────────────────────────────────┘
+         │                       │                       │
+         ▼                       ▼                       ▼
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│  Off-chain      │     │   Mantle        │     │   MockUSDT      │
+│  Storage        │◄────│   Sepolia       │────►│   Contract      │
+│  (Encrypted)    │     │   (Chain 5003)  │     │   (ERC20)       │
+└─────────────────┘     └─────────────────┘     └─────────────────┘
 ```
 
 ## Tech Stack
-
-| Component | Technology | Purpose |
-|-----------|------------|---------|
-| Blockchain | Mantle Sepolia (Chain ID: 5003) | L2 for low-cost transactions |
-| Token | MockUSDT (ERC20, 6 decimals) | Salary payments |
-| Encryption | FHE16 (WASM) | Encrypt salary data |
-| ZK Proofs | snarkjs + circom | Confidential withdrawals |
-| Hash | Poseidon | ZK-friendly commitment |
-| Frontend | Next.js 15 + React 19 | User interface |
-| Smart Contracts | Solidity + Hardhat | On-chain logic |
-| Web3 | ethers.js v6 | Blockchain interaction |
-
-### Core Components
 
 | Component | Technology |
 |-----------|------------|
