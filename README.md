@@ -100,8 +100,12 @@ LatticA uses a pool-based approach with ZK proofs:
 ### 1. Clone & Install
 
 ```bash
-git clone https://github.com/waLLLnut/LatticA-Salary.git
+# Clone with submodules
+git clone --recursive https://github.com/waLLLnut/LatticA-Salary.git
 cd LatticA-Salary
+
+# Or if already cloned without --recursive:
+git submodule update --init --recursive
 
 # Install root dependencies
 npm install
@@ -165,16 +169,11 @@ LatticA-Salary/
 ├── contracts/                # Solidity smart contracts
 │   ├── CERC20.sol            # MockUSDT token
 │   ├── SalaryPayroll.sol     # Basic payroll contract
-│   ├── ConfidentialSalaryPool.sol # FHE+ZK integrated pool
-│   ├── zkbob/                # zkBob contracts (CC0/MIT)
-│   ├── interfaces/           # Contract interfaces
-│   ├── libraries/            # Utility libraries
-│   └── proxy/                # Proxy contracts
+│   └── ConfidentialSalaryPool.sol # FHE+ZK integrated pool
 │
-├── lib/                      # FHE16 Node.js library
-│   └── fhe16/
-│       ├── fhe16.js
-│       └── fhe16.d.ts
+├── lib/                      # Libraries
+│   ├── fhe16/                # FHE16 Node.js library
+│   └── zkbob-contracts/      # zkBob submodule (CC0/MIT)
 │
 ├── executor/                 # FHE computation executor
 │   └── FHE16/

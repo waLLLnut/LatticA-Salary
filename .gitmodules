@@ -1,0 +1,3 @@
+[submodule "lib/zkbob-contracts"]
+	path = lib/zkbob-contracts
+	url = https://github.com/zkBob/zkbob-contracts.git
